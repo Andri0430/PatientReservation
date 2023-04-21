@@ -1,0 +1,208 @@
+﻿@{
+    Layout = "_NavbarFooter";
+}
+
+@model List<Pasien>
+
+<head>
+    <link rel="stylesheet" href="~/fullboost/plugins/fontawesome/css/all.min.css">
+</head>
+
+
+<section class="works service-page mt-4" style="min-height:80vh;">
+    <div class="containertext-center">
+        @if (TempData.ContainsKey("NotificationMessage"))
+        {
+            <div class="container text-center col-md-4">
+                <div class="alert alert-@TempData["NotificationType"] alert-dismissible fade show" role="alert">
+                    @TempData["NotificationMessage"]
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="container">
+        <div class="row" style="display:flex; justify-content:flex-end">
+            <div class="form-row pt-3">
+                <form class="default-form contact-form" id="myForm" onchange="sendData()" method="get">
+                    <div class="form-group">
+                        <select class="form-control col-md-15" asp-items="@ViewBag.JenisPerawatan" id="mySelect" onchange="sendData()">
+                            <option value="0">Pilih Jenis Perawatan</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="pt-3 ml-3">
+                <a class="btn-lines dark light wow fadeInUp animated btn btn-default btn-green hvr-bounce-to-right"
+                   data-wow-delay=".9s" href="/pasien/create" style="background-color:lightgray">Tambah Pasien</a>
+            </div>
+        </div>
+        <div id="pasienIgd">
+            <div class="fancybox-container">
+                <h2 class="subtitle wow fadeInUp animated" data-wow-delay=".3s" data-wow-duration="500ms">IGD</h2>
+                <hr>
+            </div>
+            <div class="row">
+                @foreach (var pasienIgd in Model.Where(p => p.Perawatan.NamaPerawatan == "IGD"))
+                {
+                    <div class="col-md-3 col-sm-6">
+                        <figure class="wow fadeInLeft animated portfolio-item" data-wow-duration="500ms" data-wow-delay="0ms">
+                            <div class="img-wrapper">
+                                <img src="~/upload/@pasienIgd.Foto" class="img-fluid">
+                                <div class="overlay">
+                                    <div class="buttons">
+                                        <a rel="gallery" class="fancybox" href="/pasien/update/@pasienIgd.Id">Edit</a>
+                                        <a href="/pasien/delete/@pasienIgd.Id">Delete</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <figcaption>
+                                <h5>
+                                    <a href="/pasien/detail/@pasienIgd.Id">@pasienIgd.Nama</a>
+                                </h5>
+                                <p class="text">@pasienIgd.Umur Tahun</p>
+                                @if (pasienIgd.Stat.Id == 1)
+                                {
+                                    <p class="text-success">@pasienIgd.Stat.Stat</p>
+                                }
+                                else
+                                {
+                                    <p class="text-danger">@pasienIgd.Stat.Stat</p>
+                                }
+                            </figcaption>
+                        </figure>
+                    </div>
+                }
+            </div>
+        </div>
+        <div id="pasienRawatInap">
+            <div class="fancybox-container">
+                <h2 class="subtitle wow fadeInUp animated" data-wow-delay=".3s" data-wow-duration="500ms">Rawat Inap</h2>
+                <hr>
+            </div>
+            <div class="row">
+                @foreach (var pasienIgd in Model.Where(p => p.Perawatan.NamaPerawatan == "Rawat Inap"))
+                {
+                    <div class="col-md-3 col-sm-6">
+                        <figure class="wow fadeInLeft animated portfolio-item" data-wow-duration="500ms" data-wow-delay="0ms">
+                            <div class="img-wrapper">
+                                <img src="~/upload/@pasienIgd.Foto" class="img-fluid" alt="this is a title">
+                                <div class="overlay">
+                                    <div class="buttons">
+                                        <a rel="gallery" class="fancybox" href="/pasien/update/@pasienIgd.Id">Edit</a>
+                                        <a href="/pasien/delete/@pasienIgd.Id">Delete</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <figcaption>
+                                <h5>
+                                    <a href="/pasien/detail/@pasienIgd.Id">@pasienIgd.Nama</a>
+                                </h5>
+                                <p class="text">@pasienIgd.Umur Tahun</p>
+                                @if (pasienIgd.Stat.Id == 1)
+                                {
+                                    <p class="text-success">@pasienIgd.Stat.Stat</p>
+                                }
+                                else
+                                {
+                                    <p class="text-danger">@pasienIgd.Stat.Stat</p>
+                                }
+                            </figcaption>
+                        </figure>
+                    </div>
+                }
+            </div>
+        </div>
+        <div id="pasienRawatJalan">
+            <div class="fancybox-container">
+                <h2 class="subtitle wow fadeInUp animated" data-wow-delay=".3s" data-wow-duration="500ms">Rawat Jalan</h2>
+                <hr>
+            </div>
+            <div class="row">
+                @foreach (var pasienIgd in Model.Where(p => p.Perawatan.NamaPerawatan == "Rawat Jalan"))
+                {
+                    if (pasienIgd == null)
+                    {
+                        <h2>Cek</h2>
+                    }
+                    <div class="col-md-3 col-sm-6">
+                        <figure class="wow fadeInLeft animated portfolio-item" data-wow-duration="500ms" data-wow-delay="0ms">
+                            <div class="img-wrapper">
+                                <img src="~/upload/@pasienIgd.Foto" class="img-fluid" alt="this is a title">
+                                <div class="overlay">
+                                    <div class="buttons">
+                                        <a rel="gallery" class="fancybox" href="/pasien/update/@pasienIgd.Id">Edit</a>
+                                        <a href="/pasien/delete/@pasienIgd.Id">Delete</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <figcaption>
+                                <h5>
+                                    <a href="/pasien/detail/@pasienIgd.Id">@pasienIgd.Nama</a>
+                                </h5>
+                                <p class="text">@pasienIgd.Umur Tahun</p>
+                                @if (pasienIgd.Stat.Id == 1)
+                                {
+                                    <p class="text-success">@pasienIgd.Stat.Stat</p>
+                                }
+                                else
+                                {
+                                    <p class="text-danger">@pasienIgd.Stat.Stat</p>
+                                }
+                            </figcaption>
+                        </figure>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <script src="~/fullboost/plugins/jquery.min.js"></script>
+    <script src="~/fullboost/plugins/bootstrap/bootstrap.min.js"></script>
+    <script src="~/fullboost/plugins/slick/slick.min.js"></script>
+    <script src="~/fullboost/plugins/slick/slick-animation.min.js"></script>
+    <script src="~/fullboost/plugins/fancybox/jquery.fancybox.min.js" defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCcABaamniA6OL5YvYSpB3pFMNrXwXnLwU" defer></script>
+    <script src="~/fullboost/plugins/google-map/gmap.js" defer></script>
+    <script src="~/fullboost/plugins/jquery-ui/jquery-ui.js" defer></script>
+    <script src="~/fullboost/js/script.js"></script>
+</section>
+
+<script>
+    function sendData() {
+        var mySelect = document.getElementById("mySelect");
+        var selectValue = mySelect.options[mySelect.selectedIndex].value;
+        var formData = $('#myForm').serialize();
+        $.ajax({
+            type: "GET",
+            url: "/pasien/Index",
+            data: formData,
+            success: function (response) {
+                if (selectValue == 1) {
+                    document.getElementById("pasienIgd").hidden = false;
+                    document.getElementById("pasienRawatInap").hidden = true;
+                    document.getElementById("pasienRawatJalan").hidden = true;
+                }
+                else if (selectValue == 2) {
+                    document.getElementById("pasienIgd").hidden = true;
+                    document.getElementById("pasienRawatInap").hidden = false;
+                    document.getElementById("pasienRawatJalan").hidden = true;
+                }
+                else if (selectValue == 3) {
+                    document.getElementById("pasienIgd").hidden = true;
+                    document.getElementById("pasienRawatInap").hidden = true;
+                    document.getElementById("pasienRawatJalan").hidden = false;
+                }
+                else {
+                    document.getElementById("pasienIgd").hidden = false
+                    document.getElementById("pasienRawatInap").hidden = false;
+                    document.getElementById("pasienRawatJalan").hidden = false;
+                }
+            },
+            error: function (xhr, status, error) {
+                // Handle error response
+            }
+        });
+    }
+</script>

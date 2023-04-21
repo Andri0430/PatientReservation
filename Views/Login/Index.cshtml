@@ -1,0 +1,76 @@
+﻿@{
+    Layout = "_NoLayout";
+    ViewData["Title"] = "Login";
+    var notificationType = TempData["Message"] as string;
+}
+
+@model AdminDto
+
+
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Login 04</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/login/css/style.css">
+</head>
+
+<body>
+    @if (TempData["Message"] != null)
+    {
+        <div class="alert alert-@(notificationType) alert-dismissible fade show alert-danger" role="alert" style="text-align:center">
+            @TempData["Message"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+    <section class="m-1">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-2 col-lg-10">
+                    <div class="wrap d-md-flex">
+                        <div class="col-lg-6">
+                            <img src="~/images/kamar-login.jpeg" class="w-100 rounded-4 shadow-4"/>
+                        </div>
+                        <div class="login-wrap p-4 p-md-5">
+                            <div class="d-flex">
+                                <div class="w-100">
+                                    <h3 class="mb-4">Sign Account</h3>
+                                </div>
+                            </div>
+                            <form class="signin-form" method="post" asp-action="Index" asp-controller="Login">
+                                <div class="form-group mb-3">
+                                    <label class="label" asp-for="UsernameDto">Username</label>
+                                    <input type="text" class="form-control" placeholder="Username" asp-for="UsernameDto" required autocomplete="off">
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label class="label" asp-for="PasswordDto">Password</label>
+                                    <input type="password" class="form-control" placeholder="Password" asp-for="PasswordDto" required>
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="form-control btn btn-primary rounded submit px-3">Sign In</button>
+                                </div>
+                                <div class="form-group d-md-flex">
+                                    <div class="w-50 text-left">
+                                        <label class="checkbox-wrap checkbox-primary mb-0">
+                                            Remember Me
+                                            <input type="checkbox" checked>
+                                            <span class="checkmark"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/popper.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

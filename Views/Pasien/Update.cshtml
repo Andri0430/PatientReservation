@@ -1,0 +1,205 @@
+﻿@{
+    ViewData["Title"] = "Update Pasien";
+    Layout = "_NoLayout";
+    Layout = "_NavbarFooter";
+}
+
+@model Pasien
+
+<body>
+    <div class="row text mt-5">
+        <div class="container text-center">
+            @if (TempData.ContainsKey("NotificationMessage"))
+            {
+                <div class="alert alert-@TempData["NotificationType"] alert-dismissible fade show" role="alert">
+                    @TempData["NotificationMessage"]
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            }
+        </div>
+        <div class="col-md-8 offset-2">
+            <p>
+                <h1>Update Actor</h1>
+            </p>
+            <div class="row">
+                <div class="col-md-8 offset-2">
+                    <form method="post" enctype="multipart/form-data" asp-action="Update" asp-controller="Pasien">
+                        <input asp-for="Id" hidden>
+                        <div class="form-group text-center">
+                            <img src="~/upload/@Model.Foto" class="border-info rounded-circle" style="max-width: 150px" id="image-preview" />
+                            <input type="file" name="Foto" id="file" onchange="previewImage()" style="display:block" value="@Model.Foto" required>
+                        </div>
+                        <div class="form-group m-2">
+                            <label asp-for="Nama" class="control-label"></label>
+                            <input asp-for="Nama" class="form-control" required />
+                            <span asp-validation-for="Nama" class="text-danger"></span>
+                        </div>
+                        <div class="form-group m-2">
+                            <label asp-for="Umur" class="control-label"></label>
+                            <input asp-for="Umur" class="form-control" onkeypress="return hanyaAngka(event)" required />
+                            <span asp-validation-for="Umur" class="text-danger"></span>
+                        </div>
+                        <div class="form-group m-2">
+                            <label asp-for="TempatLahir" class="control-label"></label>
+                            <input asp-for="TempatLahir" class="form-control" />
+                            <span asp-validation-for="TempatLahir" class="text-danger"></span>
+                        </div>
+                        <div class="form-group m-2">
+                            <label asp-for="TanggalLahir" class="control-label"></label>
+                            <input type="date" asp-for="TanggalLahir" class="form-control" required>
+                            <span asp-validation-for="TanggalLahir" class="text-danger"></span>
+                        </div>
+                        <div class="form-group m-2">
+                            <label asp-for="NoTelepon" class="control-label"></label>
+                            <input asp-for="NoTelepon" class="form-control" onkeypress="return hanyaAngka(event)" required />
+                            <span asp-validation-for="NoTelepon" class="text-danger"></span>
+                        </div>
+                        <div class="form-group m-2">
+                            <label asp-for="NoKtp" class="control-label"></label>
+                            <input asp-for="NoKtp" class="form-control" onkeypress="return hanyaAngka(event)" required />
+                            <span asp-validation-for="NoKtp" class="text-danger"></span>
+                        </div>
+                        <div class="form-group m-2">
+                            <label asp-for="Alamat.Kota" class="control-label"></label>
+                            <input name="alamatKota" class="form-control" value="@Model.Alamat.Kota" />
+                            <span asp-validation-for="Alamat.Kota" class="text-danger"></span>
+                        </div>
+                        <div class="form-group m-2">
+                            <label asp-for="Alamat.Kota" class="control-label"></label>
+                            <input name="alamatJalan" class="form-control" value="@Model.Alamat.Jalan" />
+                            <span asp-validation-for="Alamat.Kota" class="text-danger"></span>
+                        </div>
+                        <div class="form-group m-2">
+                            <label class="control-label">Jenis Perawatan</label>
+                            <select id="select1" class="form-control h-50" asp-items="@ViewBag.JenisPerawatan" name="idPerawatan" onchange="getItems()">
+                            </select>
+                        </div>
+                        <div class="form-group m-2">
+                            <label class="text-label" id="labelPilihKamar">Pilih Kamar</label>
+                            <select id="select2" class="form-control h-50" asp-items="@ViewBag.Kamar" name="idKamar" onchange="getItems()" required>
+                            </select>
+                            <span asp-validation-for="KamarID" class="text-danger"></span>
+                        </div>
+                        <div class="form-group m-2">
+                            <label class="text-label">Tanggal Masuk</label>
+                            <input type="date" asp-for="TanggalMasuk" id="tglMasuk" class="form-control main" required">
+                        </div>
+                        <div class="form-group m-2">
+                            <label class="text-label">Tanggal Keluar</label>
+                            <input type="date" asp-for="TanggalKeluar" id="tglKeluar" class="form-control main" required">
+                        </div>
+                        <div class="form-group m-2">
+                            <label class="text-label">Status</label>
+                            <select class="form-control h-50" asp-items="@ViewBag.Status" name="IdStatus" required>
+                            </select>
+                        </div>
+                        <div class="form-group m-2">
+                            <input type="submit" value="Update" class="btn btn-outline-success float-right" href="/pasien/index" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </section>
+    <script src="~/fullboost/plugins/jquery.min.js"></script>
+    <script src="~/fullboost/plugins/bootstrap/bootstrap.min.js"></script>
+    <script src="~/fullboost/plugins/slick/slick.min.js"></script>
+    <script src="~/fullboost/plugins/slick/slick-animation.min.js"></script>
+    <script src="~/fullboost/plugins/fancybox/jquery.fancybox.min.js" defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCcABaamniA6OL5YvYSpB3pFMNrXwXnLwU" defer></script>
+    <script src="~/fullboost/plugins/google-map/gmap.js" defer></script>
+    <script src="~/fullboost/plugins/jquery-ui/jquery-ui.js" defer></script>
+    <script src="~/fullboost/js/script.js"></script>
+
+    <script>
+        function getItems() {
+            var select1 = document.getElementById("select1");
+            var select1Value = select1.options[select1.selectedIndex].value;
+            $.ajax({
+                url: '/pasien/GetItemsByPerawatan',
+                data: { idPerawatan: select1Value },
+                type: 'GET',
+                success: function (data) {
+                    var select2 = document.getElementById("select2");
+                    select2.innerHTML = "";
+                    data.forEach(function (item) {
+                        var option = document.createElement("option");
+                        option.value = item.id;
+                        option.text = item.namaKamar;
+                        select2.appendChild(option);
+                    });
+                },
+                error: function () {
+                    console.log("Error");
+                }
+            });
+
+            var select2 = document.getElementById("select2");
+            var tglMasuk = document.getElementById("tglMasuk");
+            var tglKeluar = document.getElementById("tglKeluar");
+
+            if (select1Value == 3) {
+                select2.disabled = true;
+                tglMasuk.disabled = true;
+                tglKeluar.disabled = true;
+                tglMasuk.value = "@DateTime.Now.ToString("yyyy-MM-dd")";
+                tglKeluar.value = "@DateTime.Now.ToString("yyyy-MM-dd")";
+            }
+            else {
+                select2.disabled = false;
+                tglMasuk.disabled = false;
+                tglKeluar.disabled = false;
+                tglMasuk.value = "";
+                tglKeluar.value = "";
+            }
+        }
+
+        document.getElementById("select1").value = @Model.Perawatan.Id;
+
+
+        function hanyaAngka(evt) {
+            var charCode = (evt.which) ? evt.which : event.keyCode
+            if (charCode > 31 && (charCode < 48 || charCode > 57))
+                return false;
+            return true;
+        }
+
+        function SesuaiKtp() {
+            var umur = document.getElementById("umur");
+            var ktp = document.getElementById("ktp");
+            var notelp = document.getElementById("notelp");
+            var valueUmur = umur.value;
+
+            if (valueUmur < 17) {
+                ktp.placeholder = "KTP Orang Tua/Wali";
+                notelp.placeholder = "No.Hp Orang Tua/Wali"
+            }
+            else {
+                ktp.disabled = false;
+                ktp.placeholder = "";
+                notelp.placeholder = "";
+            }
+        }
+
+        function previewImage() {
+            var preview = document.querySelector('#image-preview');
+            var file = document.querySelector('input[type=file]').files[0];
+            var reader = new FileReader();
+
+            reader.onloadend = function () {
+                preview.src = reader.result;
+                preview.style.display = "block";
+            }
+
+            if (file) {
+                reader.readAsDataURL(file);
+            } else {
+                preview.src = "";
+            }
+        }
+    </script>
+</body>

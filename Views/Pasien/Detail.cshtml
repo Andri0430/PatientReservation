@@ -1,0 +1,34 @@
+﻿@using PatientReservation.Models;
+@{
+    Layout = "_NoLayout";
+    Layout = "_NavbarFooter";
+}
+@model Pasien;
+
+<body class="mt-5">
+    <section class="company-description m-t-5">
+        <div class="container m-t-5">
+            <div class="row m-t-5">
+                <div class="col-md-4 wow fadeInLeft" data-wow-delay=".3s">
+                    <img src="~/upload/@Model.Foto" alt="" class="img-fluid">
+                </div>
+                <div class="col-md-6 mt-5">
+                    <div class="block mt-2">
+                        <h3 class="subtitle wow fadeInUp" data-wow-delay=".3s" data-wow-duration="500ms">@Model.Nama</h3>
+                        <span>Umur : @Model.Umur</span>
+                        <span style="display:block">Tempat Lahir : @Model.TempatLahir</span>
+                        <span style="display:block">Tanggal Lahir : @Model.TanggalLahir.ToString("dd,MMMM,yyyy")</span>
+                        <span style="display:block">No.Telepon : @Model.NoTelepon</span>
+                        <span style="display:block">No.KTP : @Model.NoKtp</span>
+                        <span style="display:block">Kota : @Model.Alamat.Kota</span>
+                        <span style="display:block">Jalan : @Model.Alamat.Jalan</span>
+                        <span style="display:block">Jenis Perawatan : @Model.Perawatan.NamaPerawatan</span>
+                        <span style="display:block">Tanggal Masuk : @Model.TanggalMasuk.ToString("yyyy-MM-dd")</span>
+                        <span style="display:block">Tanggal Keluar : @Model.TanggalKeluar.ToString("yyyy-MM-dd")</span>
+                        <span style="display:block">Status : @Model.Stat.Stat</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>

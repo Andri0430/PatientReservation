@@ -1,0 +1,134 @@
+﻿@using PatientReservation.Models;
+@{
+    Layout = "_NavbarFooter";
+}
+@model Kamar
+
+<!DOCTYPE html>
+<html lang="zxx">
+<head>
+
+    <!-- ** Basic Page Needs ** -->
+    <meta charset="utf-8">
+    <title>Medic | Medical HTML Template</title>
+
+    <!-- ** Mobile Specific Metas ** -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Medical HTML Template">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="author" content="Themefisher">
+    <meta name="generator" content="Themefisher Medical HTML Template v1.0">
+
+    <!-- ** Plugins Needed for the Project ** -->
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="~/fullboost/plugins/">
+
+    <link rel="stylesheet" href="~/fullboost/plugins/bootstrap/bootstrap.min.css">
+    <!-- Slick Carousel -->
+    <link rel="stylesheet" href="~/fullboost/plugins/slick/slick.css">
+    <link rel="stylesheet" href="~/fullboost/plugins/slick/slick-theme.css">
+    <!-- FancyBox -->
+    <link rel="stylesheet" href="~/fullboost/plugins/fancybox/jquery.fancybox.min.css">
+    <!-- fontawesome -->
+    <link rel="stylesheet" href="~/fullboost/plugins/fontawesome/css/all.min.css">
+    <!-- animate.css -->
+    <link rel="stylesheet" href="~/fullboost/plugins/animation/animate.min.css">
+    <!-- jquery-ui -->
+    <link rel="stylesheet" href="~/fullboost/plugins/jquery-ui/jquery-ui.css">
+    <!-- timePicker -->
+    <link rel="stylesheet" href="~/fullboost/plugins/timePicker/timePicker.css">
+    <!-- Stylesheets -->
+    <link href="~/fullboost/css/style.css" rel="stylesheet">
+    <!--Favicon-->
+    <link rel="icon" href="images/favicon.png" type="image/x-icon">
+
+</head>
+<body>
+    <div class="page-wrapper mt-5" style="display:flex; flex-direction:column; justify-content:space-between">
+        <section class="mt-4">
+            <div class="container mt-5 text-center">
+                @if (TempData.ContainsKey("NotificationMessage"))
+                {
+                    <div class="alert alert-@TempData["NotificationType"] alert-dismissible fade show" role="alert">
+                        @TempData["NotificationMessage"]
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                }
+            </div>
+        </section>
+        <section>
+            <div class="container">
+                <div class="row text-center">
+                    <div class="col-lg-6 text-center">
+                        <div class="appointment-image-holder ml-0 ml-lg-4" style="display:flex; justify-content:center">
+                            <figure class="col-lg-10 col-md-10">
+                                <img loading="lazy" class="w-100" src="~/images/Rooms.jpeg" alt="Appointment">
+                            </figure>
+                        </div>
+                    </div>
+                    <div class="col-lg-5 text-center">
+                        <div class="section-title">
+                            <h3>Update<span>Rooms</span></h3>
+                        </div>
+                        <div class="contact-area style-two text-center">
+                            <form name="contact_form" class="default-form contact-form" method="post" asp-action="Update" asp-controller="Kamar">
+                                <input class="form-control" type="text" asp-for="Id" hidden>
+                                <div class="row">
+                                    <div class="col-md-11">
+                                        <div class="form-group">
+                                            <input class="form-control" type="text" asp-for="NamaKamar" value="@Model.NamaKamar" placeholder="Room Name" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <select class="form-control" asp-items="@ViewBag.JenisPerawatan" name="idperawatan" value="@Model.Perawatan.NamaPerawatan">
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <input class="form-control" asp-for="Kuota" value="@Model.Kuota" placeholder="Quantity" onkeypress="return hanyaAngka(event)" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-11">
+                                        <div class="form-group text-center">
+                                            <button type="submit" class="btn-style-one">submit now</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- container end -->
+    <!-- jquery -->
+    <script src="~/fullboost/plugins/jquery.min.js"></script>
+    <!-- bootstrap -->
+    <script src="~/fullboost/plugins/bootstrap/bootstrap.min.js"></script>
+    <!-- Slick Slider -->
+    <script src="~/fullboost/plugins/slick/slick.min.js"></script>
+    <script src="~/fullboost/plugins/slick/slick-animation.min.js"></script>
+    <!-- FancyBox -->
+    <script src="~/fullboost/plugins/fancybox/jquery.fancybox.min.js" defer></script>
+    <!-- Google Map -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCcABaamniA6OL5YvYSpB3pFMNrXwXnLwU" defer></script>
+    <script src="~/fullboost/plugins/google-map/gmap.js" defer></script>
+
+    <!-- jquery-ui -->
+    <script src="~/fullboost/plugins/jquery-ui/jquery-ui.js" defer></script>
+    <!-- timePicker -->
+    <!-- script js -->
+    <script src="~/fullboost/js/script.js"></script>
+
+    <script>
+        function hanyaAngka(evt) {
+            var charCode = (evt.which) ? evt.which : event.keyCode
+            if (charCode > 31 && (charCode < 48 || charCode > 57))
+                return false;
+            return true;
+        }
+    </script>
+</body>
+</html>

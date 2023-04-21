@@ -1,0 +1,255 @@
+﻿@using PatientReservation.Models;
+@{
+    Layout = "_NavbarFooter";
+}
+
+@model Pasien;
+
+<!DOCTYPE html>
+<html lang="zxx">
+<head>
+
+    <!-- ** Basic Page Needs ** -->
+    <meta charset="utf-8">
+    <title>Medic | Medical HTML Template</title>
+
+    <!-- ** Mobile Specific Metas ** -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Medical HTML Template">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="author" content="Themefisher">
+    <meta name="generator" content="Themefisher Medical HTML Template v1.0">
+
+    <link rel="stylesheet" href="~/fullboost/plugins/">
+    <link rel="stylesheet" href="~/fullboost/plugins/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="~/fullboost/plugins/slick/slick.css">
+    <link rel="stylesheet" href="~/fullboost/plugins/slick/slick-theme.css">
+    <link rel="stylesheet" href="~/fullboost/plugins/fancybox/jquery.fancybox.min.css">
+    <link rel="stylesheet" href="~/fullboost/plugins/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="~/fullboost/plugins/animation/animate.min.css">
+    <link rel="stylesheet" href="~/fullboost/plugins/jquery-ui/jquery-ui.css">
+    <link rel="stylesheet" href="~/fullboost/plugins/timePicker/timePicker.css">
+    <link href="~/fullboost/css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/images/">
+    <link rel="icon" href="images/favicon.png" type="image/x-icon">
+
+</head>
+
+<body>
+    <div class="page-wrapper mt-5">
+        <section class="section contact text-center">
+            <div class="container text-center">
+                @if (TempData.ContainsKey("NotificationMessage"))
+                {
+                    <div class="alert alert-@TempData["NotificationType"] alert-dismissible fade show" role="alert">
+                        @TempData["NotificationMessage"]
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                }
+            </div>
+            <div class="container mt-3">
+                <form enctype="multipart/form-data" class="default-form contact-form " class="col-lg-8 col-md-8" method="post" asp-controller="Pasien" asp-action="create">
+                    <div class="row col-lg-12 text-center">
+                        <div class="row col-lg-4 text-center">
+                            <div class="container col-lg-11 text-center">
+                                <div class="col-lg-11 h-25 mt-3">
+                                <label for="file" class="m-r-5">Pilih gambar:</label>
+                                    <img id="image-preview" class="border-info rounded-circle" style="width:150px ;height:150px; display:none; background-color:aqua" src="~/images/logo.png" />
+                                </div>
+                                <div class="row contact-form">
+                                    <div class="col-lg-11">
+                                        <input type="file" name="Foto" id="file" onchange="previewImage()" accept=".png,.jpg,.jpeg" required>
+                                        <span asp-validation-for="Foto" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-8 col-md-2 text-center">
+                            <div class="text-title text-left">
+                                <h5>Profile</h5>
+                                <hr>
+                            </div>
+                            <div class="row contact-form">
+                                <div class="col-lg-6 col-md-4 text-left">
+                                    <label for="validationServer01" class="form-label text-left">Nama Lengkap</label>
+                                    <span class="invalid-feedback" asp-validation-for="Nama" style="display:block"></span>
+                                    <input type="text" asp-for="Nama" class="form-control" id="validationCustom01" required />
+                                </div>
+                                <div class="col-lg-6 col-md-4 text-left">
+                                    <label for="validationServer01" class="form-label text-left">Usia</label>
+                                    <span class="invalid-feedback" asp-validation-for="Umur" style="display:block"></span>
+                                    <input type="text" asp-for="Umur" class="form-control" id="umur" onkeypress="return hanyaAngka(event)" onchange="SesuaiKtp()" required>
+                                </div>
+                                <div class="col-lg-6 col-md-4 text-left">
+                                    <label for="validationServer01" class="form-label text-left">Tempat Lahir</label>
+                                    <span class="invalid-feedback" asp-validation-for="TempatLahir" style="display:block"></span>
+                                    <input type="text" asp-for="TempatLahir" class="form-control" id="validationCustom01" required>
+                                </div>
+                                <div class="col-lg-6 col-md-4 text-left">
+                                    <label for="validationServer01" class="form-label text-left">Tanggal Lahir</label>
+                                    <span class="invalid-feedback" asp-validation-for="TanggalLahir" style="display:block"></span>
+                                    <input type="date" asp-for="TanggalLahir" class="form-control" id="validationCustom01" required>
+                                </div>
+                                <div class="col-lg-6 col-md-4 text-left">
+                                    <label for="validationServer01" class="form-label text-left">No.Telepon</label>
+                                    <span class="invalid-feedback" asp-validation-for="NoTelepon" style="display:block"></span>
+                                    <input type="text" asp-for="NoTelepon" class="form-control" id="notelp" onkeypress="return hanyaAngka(event)" required>
+                                </div>
+                                <div class="col-lg-6 col-md-4 text-left">
+                                    <label for="validationServer01" class="form-label text-left">No.KTP</label>
+                                    <span class="invalid-feedback" asp-validation-for="NoKtp" style="display:block"></span>
+                                    <input type="text" asp-for="NoKtp" class="form-control" id="ktp" onkeypress="return hanyaAngka(event)" required>
+                                </div>
+                            </div>
+                            <div class="text-title text-left">
+                                <h5>Alamat</h5>
+                                <hr>
+                            </div>
+                            <div class="row contact-form">
+                                <div class="col-lg-6 col-md-4 text-left">
+                                    <label for="validationServer01" class="form-label text-left">Kota</label>
+                                    <span class="valid-feedback" asp-validation-for="Alamat.Kota" style="display:block"></span>
+                                    <input type="text" name="alamatKota" class="form-control" id="validationCustom01" required>
+                                </div>
+                                <div class="col-lg-6 col-md-4 text-left">
+                                    <label for="validationServer01" class="form-label text-left">Jalan</label>
+                                    <span class="valid-feedback" asp-validation-for="Alamat.Jalan" style="display:block"></span>
+                                    <input type="text" name="alamatJalan" class="form-control" id="validationCustom01" required>
+                                </div>
+                            </div>
+                            <div class="text-title text-left">
+                                <h5>Detail</h5>
+                                <hr>
+                            </div>
+                            <div class="row contact-form">
+                                <div class="col-lg-6 text-left form-group">
+                                    <label class="text-label">Pilih Jenis Perawatan</label>
+                                    <select id="select1" class="form-control h-50" asp-items="@ViewBag.JenisPerawatan" name="idPerawatan" onchange="getItems()">
+                                        <option>Pilih Jenis Perawatan</option>
+                                    </select>
+                                </div>
+                                <div class="col-lg-6 text-left form-group">
+                                    <label class="text-label" id="labelPilihKamar">Pilih Kamar</label>
+                                    <select id="select2" class="form-control h-50" asp-items="@ViewBag.Kamar" name="idKamar">
+                                        <option>Pilih Kamar</option>
+                                    </select>
+                                </div>
+                                <div class="col-lg-6 text-left">
+                                    <label class="text-label">Tanggal Masuk</label>
+                                    <input type="date" id="tglMasuk" class="form-control main" asp-for="TanggalMasuk" placeholder="Tanggal Masuk" required">
+                                </div>
+                                <div class="col-lg-6 text-left">
+                                    <label class="text-label">Tanggal Keluara</label>
+                                    <input type="date" id="tglKeluar" class="form-control main" asp-for="TanggalKeluar" placeholder="Tanggal Keluar" required>
+                                </div>
+                            </div>
+                            <div class="col-md-12 text-center">
+                                <button class="btn btn-style-one" type="submit">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section>
+        <script src="~/fullboost/plugins/jquery.min.js"></script>
+        <script src="~/fullboost/plugins/bootstrap/bootstrap.min.js"></script>
+        <script src="~/fullboost/plugins/slick/slick.min.js"></script>
+        <script src="~/fullboost/plugins/slick/slick-animation.min.js"></script>
+        <script src="~/fullboost/plugins/fancybox/jquery.fancybox.min.js" defer></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCcABaamniA6OL5YvYSpB3pFMNrXwXnLwU" defer></script>
+        <script src="~/fullboost/plugins/google-map/gmap.js" defer></script>
+        <script src="~/fullboost/plugins/jquery-ui/jquery-ui.js" defer></script>
+        <script src="~/fullboost/plugins/timePicker/timePicker.js" defer></script>
+        <script src="~/fullboost/js/script.js"></script>
+    </div>
+</body>
+</html>
+
+<script>
+    function getItems() {
+        var select1 = document.getElementById("select1");
+        var select1Value = select1.options[select1.selectedIndex].value;
+        // Kirim permintaan ke server untuk mendapatkan item
+        $.ajax({
+            url: '/pasien/GetItemsByPerawatan',
+            data: { idPerawatan: select1Value },
+            type: 'GET',
+            success: function (data) {
+                // Tampilkan item pada select option kedua
+                var select2 = document.getElementById("select2");
+                select2.innerHTML = "";
+                data.forEach(function (item) {
+                    var option = document.createElement("option");
+                    option.value = item.id;
+                    option.text = item.namaKamar;
+                    select2.appendChild(option);
+                });
+            },
+            error: function () {
+                console.log("Error");
+            }
+        });
+
+        var select2 = document.getElementById("select2");
+        var tglMasuk = document.getElementById("tglMasuk");
+        var tglKeluar = document.getElementById("tglKeluar");
+
+        if (select1Value == 3) {
+            select2.disabled = true;
+            tglMasuk.disabled = true;
+            tglKeluar.disabled = true;
+            tglMasuk.value = "@DateTime.Now.ToString("yyyy-MM-dd")";
+            tglKeluar.value = "@DateTime.Now.ToString("yyyy-MM-dd")";
+        }
+        else {
+            select2.disabled = false;
+            tglMasuk.disabled = false;
+            tglKeluar.disabled = false;
+            tglMasuk.value = "@DateTime.Now.ToString("yyyy-MM-dd")";
+            tglKeluar.value = "";
+        }
+    }
+
+    function hanyaAngka(evt) {
+        var charCode = (evt.which) ? evt.which : event.keyCode
+        if (charCode > 31 && (charCode < 48 || charCode > 57))
+            return false;
+        return true;
+    }
+
+    function SesuaiKtp() {
+        var umur = document.getElementById("umur");
+        var ktp = document.getElementById("ktp");
+        var notelp = document.getElementById("notelp");
+        var valueUmur = umur.value;
+
+        if (valueUmur < 17) {
+            ktp.placeholder = "KTP Orang Tua/Wali";
+            notelp.placeholder = "No.Hp Orang Tua/Wali"
+        }
+        else {
+            ktp.disabled = false;
+            ktp.placeholder = "";
+            notelp.placeholder = "";
+        }
+    }
+
+    function previewImage() {
+        var preview = document.querySelector('#image-preview');
+        var file = document.querySelector('input[type=file]').files[0];
+        var reader = new FileReader();
+
+        reader.onloadend = function () {
+            preview.src = reader.result;
+            preview.style.display = "block";
+        }
+
+        if (file) {
+            reader.readAsDataURL(file);
+        } else {
+            preview.src = "";
+        }
+    }
+</script>

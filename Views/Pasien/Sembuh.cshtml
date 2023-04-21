@@ -1,0 +1,52 @@
+﻿@using PatientReservation.Models;
+@{
+    Layout = "_NavbarFooter";
+}
+
+@model List<Sembuh>
+
+<body>
+    <section class="ftco-section mt-5" style="min-height:90vh;">
+        <div class="row mt-5">
+            <div class="col-10 offset-md-1 mt-5">
+                <table class="table mt-4">
+                    <thead style="background-color:grey">
+                        <tr class="text-center">
+                            <th>Foto</th>
+                            <th>Nama Pasien</th>
+                            <th>Umur</th>
+                            <th>Alamat</th>
+                            <th>Jenis Perawatan</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td class="text-center align-middle">
+                                    <img class="rounded-circle" src="~/upload/@item.Foto" alt="@item.Nama" style="max-width: 150px" />
+                                </td>
+                                <td class="text-center align-middle">
+                                    @item.Nama
+                                </td>
+                                <td class="text-center align-middle">
+                                    @item.Umur
+                                </td>
+                                <td class="align-middle text-center">
+                                    @item.KotaAsal
+                                </td>
+                                <td class="align-middle text-center">
+                                    @item.Perawatan.NamaPerawatan
+                                </td>
+                                <td class="align-middle text-center">
+                                    @item.Status.Stat
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+</body>

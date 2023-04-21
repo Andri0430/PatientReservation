@@ -1,0 +1,114 @@
+﻿@using PatientReservation.Models;
+@{
+    Layout = "_NoLayout";
+    Layout = "_NavbarFooter";
+}
+@model List<Kamar>
+
+<style>
+    .thead-dark {
+        height: 75px;
+    }
+</style>
+
+<body>
+    <section class="ftco-section" style="min-height:90vh;" id="kamar-list">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6 text-center mt-5">
+                    <div class="container mt-3 text-center">
+                    </div>
+                </div>
+            </div>
+            <section class="container mt-5 col-md-11">
+                <div class="containertext-center">
+                    @if (TempData.ContainsKey("NotificationMessage"))
+                    {
+                        <div class="container text-center col-md-4">
+                            <div class="alert alert-@TempData["NotificationType"] alert-dismissible fade show" role="alert">
+                                @TempData["NotificationMessage"]
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="wrapper" style="display:flex; flex-direction:row; justify-content:space-between">
+                    <div class="col-md-3">
+                        <form class="default-form contact-form" id="myForm" onchange="sendData()" method="get">
+                            <div class="form-group">
+                                <select class="form-control" asp-items="@ViewBag.JenisPerawatan" name="idJenisPerawatan" id="mySelect" onchange="sendData()">
+                                    <option>Pilih Jenis Kamar</option>
+                                </select>
+                            </div>
+                        </form>
+                    </div>
+                    <div>
+                        <a class="btn btn-success" href="/kamar/create">Tambah Data</a>
+                    </div>
+                </div>
+            </section>
+            <div class="row" style="display:flex; justify-content:center">
+                <div class="col-md-12 text-center">
+                    <div class="table-wrap">
+                        <table class="table">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>No.</th>
+                                    <th>Nama Kamar</th>
+                                    <th>Jenis Kamar</th>
+                                    <th>Kuota</th>
+                                    <th>Terisi</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var kamar in Model)
+                                {
+                                    <tr class="alert" role="alert">
+                                        <td>@kamar.Id</td>
+                                        <td>@kamar.NamaKamar</td>
+                                        <td>@kamar.Perawatan.NamaPerawatan</td>
+                                        <td>@kamar.Kuota</td>
+                                        <td>@kamar.Terisi</td>
+                                        <td>
+                                            <a class="btn btn-primary" href="/kamar/show/@kamar.Id">Show</a>
+                                            <a href="/Kamar/Update/@kamar.Id" class="btn btn-warning">Update</a>
+                                            <a class="btn btn-danger" href="/Kamar/Delete/@kamar.Id">Delete</a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="~/fullboost/plugins/jquery.min.js"></script>
+    <script src="~/fullboost/plugins/bootstrap/bootstrap.min.js"></script>
+    <script src="~/fullboost/plugins/slick/slick.min.js"></script>
+    <script src="~/fullboost/plugins/slick/slick-animation.min.js"></script>
+    <script src="~/fullboost/plugins/fancybox/jquery.fancybox.min.js" defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCcABaamniA6OL5YvYSpB3pFMNrXwXnLwU" defer></script>
+    <script src="~/fullboost/plugins/google-map/gmap.js" defer></script>
+    <script src="~/fullboost/plugins/jquery-ui/jquery-ui.js" defer></script>
+    <script src="~/fullboost/js/script.js"></script>
+
+
+    <script>
+        function sendData() {
+            var formData = $('#myForm').serialize();
+            $.ajax({
+                type: "GET",
+                url: "/Kamar/Index",
+                data: formData,
+                success: function (response) {
+                    $('#kamar-list').html(response);
+                },
+            });
+        }
+    </script>
+</body>
